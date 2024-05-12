@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Flight System</title>
+
+    <style>
+        body {
+            background: url('https://dims.apnews.com/dims4/default/e6ef36e/2147483647/strip/false/crop/3000x1999+0+0/resize/1486x990!/quality/90/?url=https%3A%2F%2Fstorage.googleapis.com%2Fafs-prod%2Fmedia%2F81f680dfb4b1498bbc48081564138181%2F3000.jpeg') center/cover no-repeat;
+            background-size: cover; 
+            font-family: Arial, sans-serif;
+            margin: 0;
+            color: #fff; 
+        }
+
+        header {
+            text-align: center;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.6); 
+            position: relative;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 2em;
+        }
+
+        .logo {
+            position: absolute;
+            top: 8px;
+            right: 10px;
+            max-width: 60px; 
+        }
+
+        .social-icons {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            display: flex;
+        }
+
+        .social-icons a {
+            margin-right: 10px;
+            color: #fff;
+            text-decoration: none;
+            font-size: 24px;
+        }
+
+        form {
+            max-width: 400px;
+            width: 100%;
+            margin: 40px auto; 
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.8); 
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        select, input[type="date"] {
+            width: calc(100% - 20px);
+            padding: 8px;
+            margin-bottom: 16px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            display: inline-block;
+        }
+
+        .icon {
+            margin-right: 8px;
+            color: #333;
+            font-size: 18px;
+        }
+
+        input[type="submit"] {
+            background-color: #4caf50;
+            color: #fff;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            display: block;
+            margin: 0 auto; 
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <img class="bg-image">
+    <header>
+        <div class="social-icons">
+            <a href="https://www.instagram.com/emirates/"  style="font-size:24px" class="fa">&#xf16d;</a>
+            <a href="https://www.facebook.com/emirates/"  style="font-size:24px" class="fa">&#xf230;</a>
+            <a href="#"  style="font-size:24px" class="fa" onclick="closeForm() ">&#xf00d;</a>
+        </div>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Emirates_logo.svg/967px-Emirates_logo.svg.png" alt="Logo" class="logo">
+        <h1>Flight System</h1>
+    </header>
+
+    <form method="get" action="/search">
+        <label for="departing-airport">
+            <span class="icon">&#9992;</span>
+            Departing Airport:
+        </label>
+        <select id="departing-airport" name="departing-airport">
+            <option value="Peshawar">Peshawar</option>
+            <option value="Karachi">Karachi</option>
+            <option value="Lahore">Lahore</option>
+            <option value="Quetta">Quetta</option>
+            <option value="Multan">Multan</option>
+            <option value="Faisalabad">Faisalabad</option>
+            <option value="Rawalpindi">Rawalpindi</option>
+            <option value="Sialkot">Sialkot</option>
+            <option value="Gujranwala">Gujranwala</option>
+            <option value="Sukkur">Sukkur</option>
+            <option value="Gwadar">Gwadar</option>
+            <option value="Islamabad">Islamabad</option>
+        </select>
+
+        <br>
+
+        <label for="arrival-airport">
+            <span class="icon">&#9992;</span>
+            Arrival Airport:
+        </label>
+        <select id="arrival-airport" name="arrival-airport">
+            <option value="Peshawar">Peshawar</option>
+            <option value="Karachi">Karachi</option>
+            <option value="Lahore">Lahore</option>
+            <option value="Quetta">Quetta</option>
+            <option value="Multan">Multan</option>
+            <option value="Faisalabad">Faisalabad</option>
+            <option value="Rawalpindi">Rawalpindi</option>
+            <option value="Sialkot">Sialkot</option>
+            <option value="Gujranwala">Gujranwala</option>
+            <option value="Sukkur">Sukkur</option>
+            <option value="Gwadar">Gwadar</option>
+            <option value="Islamabad">Islamabad</option>
+        </select>
+
+        <br>
+
+        <label for="departure-date">
+            <span class="icon">&#128197;</span>
+            Departure Date:
+        </label>
+        <input type="date" id="departure-date" name="departure-date">
+
+        <br>
+
+        <!-- Hidden input for background image URL -->
+        <input type="hidden" id="background-url" name="background-url" value="">
+
+        <input type="submit" value="Search the Shortest Flight" onclick="setAndSubmit()">
+    </form>
+
+    <script>
+        function closeForm() {
+            window.close();
+        }
+
+        function setAndSubmit() {
+            // Get the background URL from the current page
+            var backgroundUrl = document.body.style.backgroundImage.slice(5, -2);
+
+            // Encode the background URL to handle special characters
+            var encodedBackgroundUrl = encodeURIComponent(backgroundUrl);
+
+            // Set the value of the hidden input
+            document.getElementById("background-url").value = encodedBackgroundUrl;
+
+            // Submit the form
+            document.forms[0].submit();
+        }
+    </script>
+
+</body>
+</html>
